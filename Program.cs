@@ -1,5 +1,8 @@
+using GestionRecetas.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<BdrecetasContext>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

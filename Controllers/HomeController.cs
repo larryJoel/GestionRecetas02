@@ -1,21 +1,33 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using GestionRecetas.Models;
+using GestionRecetas.Models.ViewModels;
 
 namespace GestionRecetas.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly BdrecetasContext _dbContext;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(BdrecetasContext context)
     {
-        _logger = logger;
+        _dbContext = context;
     }
 
     public IActionResult Index()
     {
         return View();
+    }
+
+    [HttpPost]
+    public IActionResult Index([FromBody] RecetaVM oRecetaVM )
+    {
+        Receta oReceta = oRecetaVM.oReceta;
+        oReceta.Ingredientes = oRecetaVM.oIngrediente;
+
+        _dbContext.Recetas.Add(oReceta);
+        _dbContext.SaveChanges();
+        return Json(new{respuesta = true});
     }
 
     public IActionResult Privacy()

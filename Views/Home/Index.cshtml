@@ -6,3 +6,180 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="card">
+    <div class="card-header">
+        Recetas
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="form-label">Titulo</label>
+                <input class="form-control form-control-sm" type="text" id="txtTitulo">
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">Categoria</label>
+                <input class="form-control form-control-sm" type="text" id="txtCategoria">
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">Descripcion</label>
+                <input class="form-control form-control-sm" type="text" id="txtDescripcion">
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">Cant. Comensales</label>
+                <input class="form-control form-control-sm" type="number" id="txtCantidadComensales">
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">Origen</label>
+                <input class="form-control form-control-sm" type="text" id="txtOrigen">
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">Preparación</label>
+                <input class="form-control form-control-sm" type="text" id="txtPreparacion">
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">Valoracion</label>
+                <input class="form-control form-control-sm" type="num" id="txtValoracion">
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">imagen</label>
+                <input class="form-control form-control-sm" type="text" id="txtImagen">
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label">Estado</label>
+                <input class="form-control form-control-sm" type="text" id="txtEstado">
+            </div>
+        </div>
+        <hr>
+        <div class="row align-items-end">
+            <div class="col-sm-3">
+                <label class="form-label">Ingrediente</label>
+                <input class="form-control form-control-sm" type="text" id="txtIngrediente">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-label">Descripcion</label>
+                <input class="form-control form-control-sm" type="text" id="txtIngDescripcion">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-label">Categoria</label>
+                <input class="form-control form-control-sm" type="text" id="txtIngCategoria">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-label">Unidad</label>
+                <input class="form-control form-control-sm" type="text" id="txtUnidad">
+            </div>
+             <div class="col-sm-3">
+                <label class="form-label">Cantidad</label>
+                <input class="form-control form-control-sm" type="num" id="txtCantidad">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-label">Tipo Ingred</label>
+                <input class="form-control form-control-sm" type="text" id="txtIngredienteTipo">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-label">Precio</label>
+                <input class="form-control form-control-sm" type="text" id="txtIngredientePrecio">
+            </div>
+            <div class="col-sm-3">
+                <button class="btn btn-success btn-sm" id="btnAgregar">Agregar</button>
+                <button class="btn btn-primary btn-sm" id="btnTerminar">Terminar</button>
+            </div>
+        </div> 
+        <hr>
+        <div class="row">
+            
+            <div class="col-sm-12">
+                <table class="table table-bordered table-sm" id="tbProducto">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>Ingrediente</th>
+                            <th>Descripcion</th>
+                            <th>Categoria</th>
+                            <th>Unidad</th>
+                            <th>Cantidad</th>
+                            <th>Tipo Ingrediente</th>
+                            <th>Precio</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $("#btnAgregar").on("click",function(){
+            //Calcular el precio del los ingredientes
+            var total = $("#txtCantidad").val() * $("#txtIngredientePrecio").val() 
+
+            $("#tbProducto tbody").append(
+                $("<tr>").append(
+                    $("<td>").text($("#txtIngrediente").val()),
+                    $("<td>").text($("#txtIngDescripcion").val()),
+                    $("<td>").text($("#txtIngCategoria").val()),
+                    $("<td>").text($("#txtUnidad").val()),
+                    $("<td>").text($("#txtCantidad").val()),
+                    $("<td>").text($("#txtIngredienteTipo").val()),
+                    $("<td>").text($("#txtIngredientePrecio").val()),
+                    $("<td>").text(total)
+                )
+            )
+
+            $("#txtIngrediente").val("")
+            $("#txtIngDescripcion").val("")
+            $("#txtIngCategoria").val("")
+            $("#txtUnidad").val("")
+            $("#txtCantidad").val("")
+            $("#txtIngredienteTipo").val("")
+            $("#txtIngredientePrecio").val("")
+            total=""
+            $("#txtIngrediente").focus();
+        })
+
+        $("#btnTerminar").on("click",function(){
+
+            var oIngredientes_Receta = []
+            var total = 0;
+
+            $("#tbProducto > tbody > tr").each(function(index,tr){
+
+                    oIngredientes_Receta.push(
+                        {
+                            Ingrediente:$(tr).find("td: eq(0)").text()
+                            Descripcion:$(tr).find("td: eq(1)").text()
+                            Categoria:$(tr).find("td: eq(2)").text()
+                            Unidad:$(tr).find("td: eq(3)").text()
+                            Cantidad:$(tr).find("td: eq(4)").text()
+                            Tipo Ingrediente:$(tr).find("td: eq(5)").text()
+                            Precio:$(tr).find("td: eq(6)").text()
+                        }
+
+                    )
+                  
+                    var oRecetaVM = {
+                         Titulo:$("#txtTitulo").val(),
+                         Categoria: $("#txtCategoria").val(),
+                         Descripcion: $("#txtDescripcion").val(),
+                         CantComensales: $("#txtCantComensales").val(),
+                         Origen: $("#txtOrigen").val(),
+                         Preparacion: $("#txtPreparacion").val(),
+                         Valoracion: $("#txtValoracion").val(),
+                         Imagen: $("#txtImagen").val(),
+                         Estado: $("#txtEstado").val(),
+                         Ingredientes: oIngredientes_Receta
+                    }
+
+                    console.log(oRecetaVM);
+            })
+
+
+        })
+
+
+    </script>
+}
